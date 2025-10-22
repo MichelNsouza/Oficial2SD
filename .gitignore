@@ -1,0 +1,5 @@
+.env
+mysql-data/
+vendor/
+*.log
+.DS_Store
