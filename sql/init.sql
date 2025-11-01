@@ -63,7 +63,6 @@ INSERT INTO vendas (vendedor, cliente, unidade, valor_venda, data_venda) VALUES
 ('Ana Paula', 'Lucas Rocha', 'Lauro de Freitas', 150.00, '2024-12-28 11:30:00'),
 ('Felipe Almeida', 'Márcia Nogueira', 'Feira de Santana', 290.00, '2024-11-23 09:15:00'),
 ('Bruna Costa', 'Tiago Melo', 'Salvador', 450.00, '2024-10-30 14:00:00'),
-
 ('Carlos Souza', 'João Lima', 'Feira de Santana', 1100.00, '2025-01-12 10:00:00'),
 ('Ana Paula', 'Fernanda Rocha', 'Lauro de Freitas', 850.00, '2025-02-07 14:00:00'),
 ('Marcos Silva', 'Cláudio Oliveira', 'Salvador', 3000.00, '2025-03-15 11:10:00'),

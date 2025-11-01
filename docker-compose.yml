@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-# Banco de Dados MySQL
   mysql:
     image: mysql:8.0
     container_name: relatorios_mysql
@@ -19,7 +18,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # RabbitMQ
   rabbitmq:
     image: rabbitmq:3-management
     container_name: relatorios_rabbitmq
@@ -27,7 +25,7 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
     ports:
-      - "15672:15672"  # Interface de gerenciamento
+      - "15672:15672"
     networks:
       - relatorios_network
     healthcheck:
@@ -36,7 +34,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Aplicação PHP
   app:
     build:
       context: ./app
@@ -45,7 +42,6 @@ services:
     volumes:
       - ./app/public:/var/www/html/public
       - ./app/src:/var/www/html/src
-      # NÃO montar o diretório raiz completo para não sobrescrever o vendor
     networks:
       - relatorios_network
     depends_on:
@@ -62,7 +58,6 @@ services:
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASS: ${RABBITMQ_PASS}
 
-  # Consumer (Worker)
   consumer:
     build:
       context: ./app/consumer
@@ -90,7 +85,6 @@ services:
       EMAIL_TO: ${EMAIL_TO}
     restart: unless-stopped
 
-  # Nginx (Proxy Reverso)
   nginx:
     image: nginx:alpine
     container_name: relatorios_nginx
