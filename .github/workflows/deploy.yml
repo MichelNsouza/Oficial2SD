@@ -16,9 +16,9 @@ jobs:
       - name: Configurar ambiente remoto
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.VM_HOST }}        # IP público da VM
-          username: ${{ secrets.VM_USER }}    # ex: debian
-          key: ${{ secrets.VM_SSH_KEY }}      # chave privada SSH
+          host: ${{ secrets.VM_HOST }}       
+          username: ${{ secrets.VM_USER }}    
+          key: ${{ secrets.VM_SSH_KEY }}      
           script: |
             set -e
 
@@ -56,8 +56,9 @@ jobs:
               sudo systemctl start docker
             fi
 
-            # === Sobe containers com Docker Compose Plugin ===
-            sudo docker compose down || true
+            # === Limpa containers antigos e sobe novos ===
+            sudo docker compose down -v --remove-orphans || true
+            sudo docker system prune -af || true
             sudo docker compose up -d --build
 
             # === Mostra containers em execução ===
