@@ -16,9 +16,9 @@ jobs:
       - name: Configurar ambiente remoto
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.VM_HOST }}       
-          username: ${{ secrets.VM_USER }}    
-          key: ${{ secrets.VM_SSH_KEY }}      
+          host: ${{ secrets.VM_HOST }}        # IP público da VM
+          username: ${{ secrets.VM_USER }}    # ex: debian
+          key: ${{ secrets.VM_SSH_KEY }}      # chave privada SSH
           script: |
             set -e
 
@@ -58,7 +58,14 @@ jobs:
 
             # === Limpa containers antigos e sobe novos ===
             sudo docker compose down -v --remove-orphans || true
+
+            # Remove containers antigos travados (ex: relatorios_rabbitmq)
+            sudo docker rm -f $(sudo docker ps -aq --filter "name=relatorios_") || true
+
+            # Limpa imagens e redes antigas
             sudo docker system prune -af || true
+
+            # Sobe containers novamente
             sudo docker compose up -d --build
 
             # === Mostra containers em execução ===
