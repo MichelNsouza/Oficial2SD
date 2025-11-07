@@ -85,6 +85,22 @@ services:
       EMAIL_TO: ${EMAIL_TO}
     restart: unless-stopped
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: relatorios_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8080:80" 
+    networks:
+      - relatorios_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
   nginx:
     image: nginx:alpine
     container_name: relatorios_nginx
