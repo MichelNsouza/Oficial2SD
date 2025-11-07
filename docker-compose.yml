@@ -90,11 +90,10 @@ services:
     container_name: relatorios_phpmyadmin
     environment:
       PMA_HOST: mysql
-      PMA_USER: root
-      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PMA_ARBITRARY: 1
       UPLOAD_LIMIT: 64M
     ports:
-      - "8080:80" 
+      - "8080:80"
     networks:
       - relatorios_network
     depends_on:
