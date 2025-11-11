@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../src/dashboard.php';?>
+<?php 
+require_once __DIR__ . '/../src/dashboard.php';
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -90,6 +92,47 @@
             border: 1px solid #c3e6cb;
         }
         a { color: white; text-decoration: none; }
+
+        .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+        .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        width: 600px;    
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .detalhes {
+        background: #f9f9f9;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        text-align: left;
+        }
+        .alerta {
+        background: #e8f0ff;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #003c8f;
+        }
+        #closeModal {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -102,9 +145,30 @@
     </div>
     
     <div class="container">
-        <?php if ($mensagem_sucesso): ?>
-            <div class="sucesso"><?= htmlspecialchars($mensagem_sucesso) ?></div>
-        <?php endif; ?>
+
+
+     <?php if (isset($relatorio_info)): ?>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <h2>📊 Relatório em Processamento</h2>
+                <p>Seu relatório está sendo gerado. Assim que estiver pronto, você receberá o arquivo XLS por e-mail.</p>
+
+                <div class="detalhes">
+                    <h3>Detalhes da Solicitação:</h3>
+                    <p><strong>Unidade:</strong> <?= htmlspecialchars($relatorio_info['unidade']) ?></p>
+                    <p><strong>Ano:</strong> <?= htmlspecialchars($relatorio_info['ano']) ?></p>
+                    <p><strong>Solicitado em:</strong> <?= htmlspecialchars($relatorio_info['solicitado_em']) ?></p>
+                    <p><strong>Será enviado para:</strong> <?= htmlspecialchars($relatorio_info['email']) ?></p>
+                </div>
+
+                <div class="alerta">
+                    ⚠️ O processamento pode levar alguns minutos dependendo da quantidade de dados.
+                </div>
+
+                <button id="closeModal">Solicitar Novo Relatório</button>
+            </div>
+        </div>
+    <?php endif; ?>
         
         <div class="filtros">
             <form method="GET">
@@ -136,6 +200,8 @@
                 📧 Gerar XLS e Enviar por E-mail
             </button>
         </form>
+
+        
         
         <table>
             <thead>
@@ -168,4 +234,18 @@
         </table>
     </div>
 </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('closeModal');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      document.getElementById('modal').remove();
+    });
+  }
+});
+</script>
+
 </html>
+
+

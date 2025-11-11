@@ -53,8 +53,15 @@ if (isset($_POST['gerar_relatorio'])) {
         
         $channel->close();
         $connection->close();
+
+         $relatorio_info = [
+            'unidade' => $unidade ?: 'Todas',
+            'ano' => $ano ?: 'Todos',
+            'solicitado_em' => date('d/m/Y'),
+            'email' => $_SESSION['usuario_email']
+        ];
         
-        $mensagem_sucesso = 'Relatório enviado para processamento! Você receberá o arquivo por e-mail em breve.';
+        // $mensagem_sucesso = 'Relatório enviado para processamento! Você receberá o arquivo por e-mail em breve.';
     } catch (Exception $e) {
         $mensagem_sucesso = 'Erro ao enviar para fila: ' . $e->getMessage();
     }
